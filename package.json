@@ -1,0 +1,32 @@
+{
+  "name": "pg-doc",
+  "version": "0.1.0",
+  "description": "Produce schema documentation for your Postgres database in markdown format",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/echetzakis/pg-doc.git"
+  },
+  "keywords": [
+    "postgres",
+    "markdown",
+    "database",
+    "documentation"
+  ],
+  "author": "Eleftherios Chetzakis <elchetz@gamil.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/echetzakis/pg-doc/issues"
+  },
+  "homepage": "https://github.com/echetzakis/pg-doc#readme",
+  "dependencies": {
+    "knex": "^0.19.1",
+    "pg": "^7.12.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0"
+  }
+}
