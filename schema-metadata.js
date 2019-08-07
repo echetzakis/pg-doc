@@ -1,18 +1,18 @@
 const knex = require('knex');
-const db = knex({
-    client: 'pg',
-    connection: process.env.DATABASE_URL
-});
+const config = require('./config');
 
-function getTables() {
-    const excluded = ['schema_version', 'migrations', 'migrations_lock', 'dropped_foreign_keys'];
-    return db.select('tables.table_name', db.raw('obj_description(tables.table_name::regclass) as description'))
+function getTables(db) {
+    let builder = db.select('tables.table_name', db.raw('obj_description(tables.table_name::regclass) as description'))
         .from('information_schema.tables')
         .where('tables.table_schema', 'public')
         .where('tables.table_type', 'BASE TABLE')
-        .whereNotIn('tables.table_name', excluded)
         .orderBy('tables.table_name', 'asc')
-        .then(rows => rows.reduce(tableReducer, {}));
+
+    if (Array.isArray(config.excluded)) {
+        builder = builder.whereNotIn('tables.table_name', config.excluded);
+    }
+
+    return builder.then(rows => rows.reduce(tableReducer, {}));
 }
 
 function tableReducer(mem, tab) {
@@ -20,7 +20,7 @@ function tableReducer(mem, tab) {
     return mem;
 }
 
-function getColumns(tables) {
+function getColumns(db, tables) {
     return db.select(
         'columns.table_name',
         'columns.column_name',
@@ -34,7 +34,7 @@ function getColumns(tables) {
         .then(rows => rows.reduce(columnReducer, {}));
 }
 
-function getConstraints() {
+function getConstraints(db) {
     return db.select(
         db.ref('key_column_usage.table_name').as('src_tab'),
         db.ref('key_column_usage.column_name').as('src_col'),
@@ -53,11 +53,11 @@ function getConstraints() {
 function constraintsReducer(mem, cons) {
     let tab = mem[cons.src_tab];
     if (!tab) {
-        mem[cons.src_tab] = tab = { };
+        mem[cons.src_tab] = tab = {};
     }
     let col = tab[cons.src_col];
     if (!col) {
-        tab[cons.src_col] = col = { };
+        tab[cons.src_col] = col = {};
     }
     switch (cons.type) {
         case 'UNIQUE':
@@ -76,7 +76,7 @@ function constraintsReducer(mem, cons) {
 function columnReducer(mem, current) {
     let table = mem[current.table_name];
     if (!table) {
-        mem[current.table_name] = table = { };
+        mem[current.table_name] = table = {};
     }
     table[current.column_name] = {
         type: current.data_type,
@@ -88,9 +88,13 @@ function columnReducer(mem, current) {
 }
 
 async function schemaMetadata() {
-    const tables = await getTables();
-    const columns = await getColumns(Object.keys(tables));
-    const constraints = await getConstraints();
+    const db = knex({
+        client: 'pg',
+        connection: config.connection
+    });
+    const tables = await getTables(db);
+    const columns = await getColumns(db, Object.keys(tables));
+    const constraints = await getConstraints(db);
     db.destroy();
     return { tables, columns, constraints };
 }

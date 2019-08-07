@@ -1,4 +1,5 @@
 const { version } = require('./package.json');
+const config = require('./config');
 
 function writeDoc(context) {
     header(context);
@@ -8,34 +9,39 @@ function writeDoc(context) {
 }
 
 function header({ stream }) {
-    stream.write('# Database Documentation\n');
+    const title = config.title || 'Database Documentation'; 
+    stream.write(`# ${title}\n`);
 }
 
 function toc({ stream, tables }) {
     let i = 1;
     const names = Object.keys(tables).sort();
     let initial = names[0][0].toUpperCase();
-    const splitByInitial = names.length > 20;
+    const splitByInitial = config.splitByInitial && names.length > config.splitLimit;
     stream.write('## Tables \n');
     if (splitByInitial) {
-        stream.write(names.map(name => name[0].toUpperCase()).reduce((initials, letter) => {
-            if (!initials.includes(letter)) {
-                initials.push(letter);
-            }
-            return initials;
-        }, []).map(initial => `[${initial}](#${initial})`).join(' \\| '));
-        stream.write('\n');
+        navBar(stream, names);
     }
     tocHeader(stream, splitByInitial, initial);
     names.forEach(name => {
         let newInitial = name[0].toUpperCase();
-        if (initial !== newInitial && splitByInitial) {
+        if (splitByInitial && initial !== newInitial) {
             initial = newInitial;
             tocHeader(stream, splitByInitial, initial);
         }
         stream.write(`|${i}| [${name}](#${name}) | ${tables[name].description} |\n`);
         i++;
     });
+}
+
+function navBar(stream, names){
+    stream.write(names.map(name => name[0].toUpperCase()).reduce((initials, letter) => {
+        if (!initials.includes(letter)) {
+            initials.push(letter);
+        }
+        return initials;
+    }, []).map(initial => `[${initial}](#${initial})`).join(' \\| '));
+    stream.write('\n');
 }
 
 function tocHeader(stream, splitByInitial, initial) {
