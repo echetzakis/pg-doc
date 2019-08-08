@@ -1,7 +1,7 @@
-const schemaMetadata = require('./schema-metadata');
-const writeDoc = require('./md-writer');
+const schemaMetadata = require('../src/schema-metadata');
+const writeDoc = require('../src/md-writer');
 const fs = require('fs');
-const config = require('./cl-args');
+const config = require('../src/cl-args');
 
 async function createDoc() {
     const context = await schemaMetadata();

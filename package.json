@@ -5,9 +5,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "main": "./src/cli.js",
     "bin": {
-        "pg-doc": "./src/cli.js"
+        "pg-doc": "./bin/cli.js"
     },
     "repository": {
         "type": "git",
