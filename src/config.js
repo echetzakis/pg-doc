@@ -20,13 +20,15 @@ try {
 
 // From env
 const env = {
-    splitLimit: Number.isInteger(process.env.PGDOC_SPLIT_LIMIT) ? parseInt(process.env.PGDOC_SPLIT, 10) : null,
-    splitByInitial: process.env.PGDOC_SPLIT ? process.env.PGDOC_SPLIT === 'true' : null,
-    title: process.env.PGDOC_TITLE,
     connection: process.env.PGDOC_CONNECTION,
-    excluded: process.env.PGDOC_EXCLUDED ? process.env.PGDOC_EXCLUDED.split(',').map(s => s.trim()) : null
+    out: process.env.PGDOC_OUT,
+    title: process.env.PGDOC_TITLE,
+    excluded: process.env.PGDOC_EXCLUDED ? process.env.PGDOC_EXCLUDED.split(',').map(s => s.trim()) : null,
+    splitLimit: Number.isInteger(process.env.PGDOC_SPLIT_LIMIT) ? parseInt(process.env.PGDOC_SPLIT, 10) : null,
+    splitByInitial: process.env.PGDOC_SPLIT_BY_INITIAL ? process.env.PGDOC_SPLIT_BY_INITIAL === 'true' : null
 };
 
+// Env overrides .pg-doc.json
 Object.keys(env).forEach(k => {
     if (env[k] || env[k] === false) {
         config[k] = env[k];
