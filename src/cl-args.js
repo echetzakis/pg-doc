@@ -4,25 +4,11 @@ const config = require('./config');
 const args = yargs
     .scriptName("pg-doc")
     .usage('Usage: $0 [options]')
-    .option('toc', {
-        boolean: true,
-        demandOption: false,
-        default: true,
-        describe: 'Don\'t add a table of contents section'
-    })
-    .option('split-by-initial', {
-        alias: 's',
-        boolean: true,
-        demandOption: false,
-        default: false,
-        describe: 'Split TOC by initial table name letter'
-    })
-    .option('split-limit', {
-        alias: 'sl',
-        demandOption: false,
-        type: 'number',
-        default: 20,
-        describe: 'Split TOC if number of tables is greater that this limit'
+    .option('connection', {
+        alias: 'db',
+        demandOption: !config.connection,
+        type: 'string',
+        describe: 'Database Connection URL'
     })
     .option('out', {
         alias: 'o',
@@ -36,17 +22,31 @@ const args = yargs
         type: 'string',
         describe: 'The title of the document'
     })
-    .option('connection', {
-        alias: 'db',
-        demandOption: !config.connection,
-        type: 'string',
-        describe: 'Database Connection URL'
-    })
     .option('excluded', {
         alias: 'ex',
         demandOption: false,
         array: true,
         describe: 'Tables to be excluded'
+    })
+    .option('toc', {
+        boolean: true,
+        demandOption: false,
+        default: true,
+        describe: 'Add a table of contents (TOC) section'
+    })
+    .option('split-by-initial', {
+        alias: 's',
+        boolean: true,
+        demandOption: false,
+        default: false,
+        describe: 'Split TOC by initial letter'
+    })
+    .option('split-limit', {
+        alias: 'sl',
+        demandOption: false,
+        type: 'number',
+        default: 20,
+        describe: 'Split TOC only if number of tables is greater that this limit'
     })
     .help()
     .argv;
