@@ -6,7 +6,8 @@ const config = {
     toc: true,
     splitByInitial: true,
     splitLimit: 20,
-    title: "Database Documentation"
+    title: "Database Documentation",
+    out: "DATABASE.md"
 };
 
 // From .pg-doc.json

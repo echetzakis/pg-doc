@@ -8,7 +8,7 @@ function getTables(db) {
         .where('tables.table_type', 'BASE TABLE')
         .orderBy('tables.table_name', 'asc')
 
-    if (Array.isArray(config.excluded)) {
+    if (Array.isArray(config.excluded) && config.excluded.length > 0) {
         builder = builder.whereNotIn('tables.table_name', config.excluded);
     }
 

@@ -9,7 +9,7 @@ function writeDoc(context) {
 }
 
 function header({ stream }) {
-    const title = config.title || 'Database Documentation'; 
+    const title = config.title; 
     stream.write(`# ${title}\n`);
 }
 

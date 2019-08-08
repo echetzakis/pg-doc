@@ -5,7 +5,7 @@ const config = require('./cl-args');
 
 async function createDoc() {
     const context = await schemaMetadata();
-    context.stream = fs.createWriteStream(config.out || 'DATABASE.md');
+    context.stream = fs.createWriteStream(config.out);
     writeDoc(context);
     report(context);
 }
