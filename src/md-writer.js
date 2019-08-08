@@ -1,4 +1,4 @@
-const { version } = require('./package.json');
+const { version } = require('../package.json');
 const config = require('./config');
 
 function writeDoc(context) {
@@ -14,6 +14,9 @@ function header({ stream }) {
 }
 
 function toc({ stream, tables }) {
+    if(!config.toc){
+        return;
+    }
     let i = 1;
     const names = Object.keys(tables).sort();
     let initial = names[0][0].toUpperCase();
