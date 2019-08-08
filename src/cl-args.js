@@ -26,16 +26,14 @@ const args = yargs
     })
     .option('out', {
         alias: 'o',
-        demandOption: false,
+        demandOption: !config.out,
         type: 'string',
-        default: 'DATABASE.md',
         describe: 'The file name of the output'
     })
     .option('title', {
         alias: 't',
         demandOption: false,
         type: 'string',
-        default: 'Database Documentation',
         describe: 'The title of the document'
     })
     .option('connection', {
