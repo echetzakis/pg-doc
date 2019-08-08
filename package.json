@@ -3,7 +3,12 @@
     "version": "0.1.0",
     "description": "Produce schema documentation for your Postgres database in markdown format",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "predb:migrate": "NODE_ENV=admin node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:latest",
+        "db:migrate": "NODE_ENV=test node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:latest",
+        "db:drop": "NODE_ENV=admin node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:rollback --all",
+        "pretest": "npm run db:migrate",
+        "posttest": "npm run db:drop",
+        "test": "echo \"Error: no test specified\""
     },
     "bin": {
         "pg-doc": "./bin/cli.js"
