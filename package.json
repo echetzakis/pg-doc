@@ -6,7 +6,7 @@
         "predb:migrate": "NODE_ENV=admin node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:latest",
         "db:migrate": "NODE_ENV=test node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:latest",
         "db:drop": "NODE_ENV=admin node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:rollback --all",
-        "pretest": "npm run db:migrate",
+        "pretest": "npm run db:migrate; eslint .",
         "posttest": "npm run db:drop",
         "test": "echo \"Error: no test specified\""
     },
@@ -39,6 +39,9 @@
         "yargs": "^13.3.0"
     },
     "devDependencies": {
-        "eslint": "^6.1.0"
+        "eslint": "^6.1.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-mocha": "^6.0.0",
+        "mocha": "^6.2.0"
     }
 }

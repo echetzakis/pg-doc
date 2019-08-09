@@ -14,7 +14,7 @@ exports.up = function (knex, Promise) {
         t.enu('rank', ['one', 'two', 'three'], { useNative: true, enumName: 'table1_enum1' })
             .notNull()
             .defaultTo('one')
-            .comment('An enumerated rank column')
+            .comment('An enumerated rank column');
 
         t.jsonb('data')
             .notNull()

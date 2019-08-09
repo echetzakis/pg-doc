@@ -6,7 +6,7 @@ function getTables(db) {
         .from('information_schema.tables')
         .where('tables.table_schema', 'public')
         .where('tables.table_type', 'BASE TABLE')
-        .orderBy('tables.table_name', 'asc')
+        .orderBy('tables.table_name', 'asc');
 
     if (Array.isArray(config.excluded) && config.excluded.length > 0) {
         builder = builder.whereNotIn('tables.table_name', config.excluded);
@@ -48,7 +48,6 @@ function getConstraints(db) {
         .orderBy(['key_column_usage.table_name', 'key_column_usage.column_name'])
         .then(rows => rows.reduce(constraintsReducer, {}));
 }
-
 
 function constraintsReducer(mem, cons) {
     let tab = mem[cons.src_tab];

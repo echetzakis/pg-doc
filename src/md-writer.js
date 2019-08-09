@@ -9,12 +9,12 @@ function writeDoc(context) {
 }
 
 function header({ stream }) {
-    const title = config.title; 
+    const title = config.title;
     stream.write(`# ${title}\n`);
 }
 
 function toc({ stream, tables }) {
-    if(!config.toc){
+    if (!config.toc) {
         return;
     }
     let i = 1;
@@ -37,7 +37,7 @@ function toc({ stream, tables }) {
     });
 }
 
-function navBar(stream, names){
+function navBar(stream, names) {
     stream.write(names.map(name => name[0].toUpperCase()).reduce((initials, letter) => {
         if (!initials.includes(letter)) {
             initials.push(letter);
@@ -57,18 +57,18 @@ function tocHeader(stream, splitByInitial, initial) {
 
 function details({ stream, tables, columns, constraints }) {
     stream.write('## Details \n');
-    for (table in tables) {
+    for (let table in tables) {
         stream.write(`### ${table}\n`);
         stream.write(`${tables[table].description}\n`);
         stream.write('|\# |column|type|nullable|default|constraints|description|\n');
         stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
-        columnDetails({ stream, columns: columns[table] || {}, constraints: constraints[table] || {} })
+        columnDetails({ stream, columns: columns[table] || {}, constraints: constraints[table] || {} });
     }
 }
 
 function columnDetails({ stream, columns, constraints }) {
     let i = 1;
-    for (name in columns) {
+    for (let name in columns) {
         const data = columns[name];
         stream.write(`| ${i} | ${name} |  ${data.type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(constraints[name])} | ${mdEsc(data.description)} |\n`);
         i++;

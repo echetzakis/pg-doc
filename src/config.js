@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 const path = require('path');
 const configFileName = '.pg-doc.json';
 const configPath = process.cwd();
@@ -6,8 +7,8 @@ const config = {
     toc: true,
     splitByInitial: true,
     splitLimit: 20,
-    title: "Database Documentation",
-    out: "DATABASE.md"
+    title: 'Database Documentation',
+    out: 'DATABASE.md'
 };
 
 // From .pg-doc.json

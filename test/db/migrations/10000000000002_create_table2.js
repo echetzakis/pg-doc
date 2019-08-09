@@ -14,7 +14,7 @@ exports.up = function (knex, Promise) {
 
         t.integer('table1_id')
             .references('id')
-            .inTable('table1') 
+            .inTable('table1')
             .comment('This foreign key referencing table 1');
 
         t.integer('age')

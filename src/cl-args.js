@@ -2,7 +2,7 @@ const yargs = require('yargs');
 const config = require('./config');
 
 const args = yargs
-    .scriptName("pg-doc")
+    .scriptName('pg-doc')
     .usage('Usage: $0 [options]')
     .option('connection', {
         alias: 'db',

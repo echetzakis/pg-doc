@@ -1,8 +1,8 @@
+const fs = require('fs');
+const timeSpan = require('time-span');
 const schemaMetadata = require('../src/schema-metadata');
 const writeDoc = require('../src/md-writer');
-const fs = require('fs');
 const config = require('../src/cl-args');
-const timeSpan = require('time-span');
 
 async function createDoc() {
     const context = await schemaMetadata();
