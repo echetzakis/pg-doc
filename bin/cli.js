@@ -22,4 +22,4 @@ function report(context) {
 
 const time = timeSpan();
 createDoc()
-    .catch(console.error);
+    .catch(e => console.error(e.message));
