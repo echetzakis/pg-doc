@@ -59,7 +59,7 @@ function details({ stream, tables, columns, constraints }) {
     stream.write('## Details \n');
     for (let table in tables) {
         stream.write(`### ${table}\n`);
-        stream.write(`${tables[table].description}\n`);
+        stream.write(`${tables[table].description}\n\n`);
         stream.write('|\# |column|type|nullable|default|constraints|description|\n');
         stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
         columnDetails({ stream, columns: columns[table] || {}, constraints: constraints[table] || {} });

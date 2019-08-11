@@ -2,6 +2,7 @@
 ## Details 
 ### table1
 This is the description for table 1
+
 |# |column|type|nullable|default|constraints|description|
 |--:|------|----|--------|-------|-----------|-----------|
 | 1 | id |  integer | NO | nextval('table1_id_seq'::regclass) | **PK** | This is the id (PK) column |
@@ -10,6 +11,7 @@ This is the description for table 1
 | 4 | data |  jsonb | NO | '{"empty": true}'::jsonb |  | This is a data (json) column |
 ### table2
 This is the description for table 2
+
 |# |column|type|nullable|default|constraints|description|
 |--:|------|----|--------|-------|-----------|-----------|
 | 1 | id |  integer | NO | nextval('table2_id_seq'::regclass) | **PK** | This is the id (PK) column |
