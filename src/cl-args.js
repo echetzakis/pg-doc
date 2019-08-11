@@ -38,7 +38,6 @@ const args = yargs
         alias: 's',
         boolean: true,
         demandOption: false,
-        default: false,
         describe: 'Split TOC by initial letter'
     })
     .option('split-limit', {
@@ -55,9 +54,7 @@ const args = yargs
 Object.keys(args)
     .filter(arg => ['title', 'toc', 'splitByInitial', 'splitLimit', 'connection', 'excluded', 'out'].includes(arg))
     .forEach(k => {
-        if (args[k] || args[k] === false) {
-            config[k] = args[k];
-        }
+        config[k] = args[k];
     });
 
 module.exports = config;

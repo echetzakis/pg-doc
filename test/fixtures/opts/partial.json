@@ -1,0 +1,8 @@
+{
+    "connection": "TEST_CONNECTION",
+    "excluded": [
+        "TEST_EXCLUDED_1",
+        "TEST_EXCLUDED_2"
+    ],
+    "title": "TEST_TITLE"
+}

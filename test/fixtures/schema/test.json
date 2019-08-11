@@ -1,0 +1,95 @@
+{
+    "tables": {
+        "table1": {
+            "description": "This is the description for table 1"
+        },
+        "table2": {
+            "description": "This is the description for table 2"
+        }
+    },
+    "columns": {
+        "table1": {
+            "id": {
+                "type": "integer",
+                "nullable": "NO",
+                "default": "nextval('table1_id_seq'::regclass)",
+                "description": "This is the id (PK) column"
+            },
+            "name": {
+                "type": "character varying",
+                "nullable": "YES",
+                "default": null,
+                "description": "This is the name column"
+            },
+            "rank": {
+                "type": "USER-DEFINED",
+                "nullable": "NO",
+                "default": "'one'::table1_enum1",
+                "description": "An enumerated rank column"
+            },
+            "data": {
+                "type": "jsonb",
+                "nullable": "NO",
+                "default": "'{\"empty\": true}'::jsonb",
+                "description": "This is a data (json) column"
+            }
+        },
+        "table2": {
+            "id": {
+                "type": "integer",
+                "nullable": "NO",
+                "default": "nextval('table2_id_seq'::regclass)",
+                "description": "This is the id (PK) column"
+            },
+            "email": {
+                "type": "character varying",
+                "nullable": "YES",
+                "default": null,
+                "description": "This is the email column"
+            },
+            "table1_id": {
+                "type": "integer",
+                "nullable": "YES",
+                "default": null,
+                "description": "This foreign key referencing table 1"
+            },
+            "age": {
+                "type": "integer",
+                "nullable": "NO",
+                "default": null,
+                "description": "This is the age column"
+            }
+        }
+    },
+    "constraints": {
+        "migrations": {
+            "id": {
+                "pk": true
+            }
+        },
+        "migrations_lock": {
+            "index": {
+                "pk": true
+            }
+        },
+        "table1": {
+            "id": {
+                "pk": true
+            }
+        },
+        "table2": {
+            "email": {
+                "unq": true
+            },
+            "id": {
+                "pk": true
+            },
+            "table1_id": {
+                "fk": {
+                    "table": "table1",
+                    "column": "id"
+                }
+            }
+        }
+    }
+}

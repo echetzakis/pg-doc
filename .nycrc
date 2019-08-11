@@ -1,0 +1,15 @@
+{
+    "lines": 85,
+    "functions": 85,
+    "branches": 85,
+    "statements": 85,
+    "exclude": [
+        "test",
+        "db/fixtures",
+        "knexfile.js",
+        "config/config.js"
+    ],
+    "reporter": [
+        "html"
+    ]
+}
