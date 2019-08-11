@@ -13,4 +13,4 @@ function loadRcFile() {
     }
 }
 
-module.exports.loadRcFile = loadRcFile;
+module.exports = { loadRcFile };
