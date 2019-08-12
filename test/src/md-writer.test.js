@@ -2,12 +2,13 @@ const { Writable } = require('stream');
 const { readFileSync } = require('fs');
 const path = require('path');
 const sandbox = require('sinon').createSandbox();
-const writeDoc = require('../../src/md-writer');
+const proxyquire = require('proxyquire');
+const writeDoc = proxyquire('../../src/md-writer', { '../package.json': {version: '1.0.0'} });
 const config = require('../../src/config');
 
 describe('writer test', () => {
     beforeEach(() => {
-        // initialize your mocks
+
     });
     afterEach(() => {
         sandbox.restore();
