@@ -80,10 +80,14 @@ function columnReducer(mem, current) {
     table[current.column_name] = {
         type: current.data_type,
         nullable: current.is_nullable,
-        default: current.column_default,
+        default: defaultValueProcessor(current.column_default),
         description: current.description || ''
     };
     return mem;
+}
+
+function defaultValueProcessor(defaultValue) {
+    return defaultValue;
 }
 
 async function schemaMetadata() {
