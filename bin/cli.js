@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const timeSpan = require('time-span');
 const schemaMetadata = require('../src/schema-metadata');
