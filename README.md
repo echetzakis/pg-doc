@@ -1,3 +1,5 @@
+<img src="icon.png" align="right" />
+
 [![npm version](https://badge.fury.io/js/pg-doc.svg)](https://badge.fury.io/js/pg-doc)
 
 # pg-doc
