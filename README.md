@@ -31,6 +31,20 @@ Options:
   --no-descriptions, --nd  Don't output table/column descriptions      [boolean]
   --help                   Show help                                   [boolean]
 ```
+# Table and Column descriptions
+By default `pg-doc` will show the description you have defined as table/column comments in your database, ie:
+```
+sql> COMMENT ON TABLE foo IS 'This is my foo table.';
+```
+If you have no comments defined you can either disable this by setting the `noDescriptions` option to `true` or provide your descriptions by adding a `descriptions` section in your `.pg-doc.json` file like so:
+```
+{
+    "descriptions": {
+        "tableName": "this is my tableName description",
+        "tableName.columnName": "this is my columnName description"
+    }
+}
+```
 
 # Configuration
   
