@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/pg-doc.svg)](https://badge.fury.io/js/pg-doc)
+
 # pg-doc
 
 Produce **markdown** schema documentation for your **Postgres** database.
