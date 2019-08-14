@@ -32,7 +32,11 @@ function toc({ stream, tables }) {
             initial = newInitial;
             tocHeader(stream, splitByInitial, initial);
         }
-        stream.write(`|${i}| [${name}](#${name}) | ${tables[name].description} |\n`);
+        stream.write(`|${i}| [${name}](#${name}) |`);
+        if (!config.noDescriptions) {
+            stream.write(` ${tables[name].description} |`);
+        }
+        stream.write('\n');
         i++;
     });
 }
@@ -51,17 +55,25 @@ function tocHeader(stream, splitByInitial, initial) {
     if (splitByInitial) {
         stream.write(`### ${initial} \n`);
     }
-    stream.write('|\# |Table Name| Description|\n');
-    stream.write('|--:|----------|------------|\n');
+    if (config.noDescriptions) {
+        stream.write('|\# |Table Name|\n|--:|----------|\n');
+    } else {
+        stream.write('|\# |Table Name| Description|\n|--:|----------|------------|\n');
+    }
 }
 
 function details({ stream, tables, columns, constraints }) {
     stream.write('## Details \n');
     for (let table in tables) {
         stream.write(`### ${table}\n`);
-        stream.write(`${tables[table].description}\n\n`);
-        stream.write('|\# |column|type|nullable|default|constraints|description|\n');
-        stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
+        if (config.noDescriptions) {
+            stream.write('|\# |column|type|nullable|default|constraints|\n');
+            stream.write('|--:|------|----|--------|-------|-----------|\n');
+        } else {
+            stream.write(`${tables[table].description}\n\n`);
+            stream.write('|\# |column|type|nullable|default|constraints|description|\n');
+            stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
+        }
         columnDetails({ stream, columns: columns[table] || {}, constraints: constraints[table] || {} });
     }
 }
@@ -70,7 +82,11 @@ function columnDetails({ stream, columns, constraints }) {
     let i = 1;
     for (let name in columns) {
         const data = columns[name];
-        stream.write(`| ${i} | ${name} |  ${data.type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(constraints[name])} | ${mdEsc(data.description)} |\n`);
+        stream.write(`| ${i} | ${name} |  ${data.type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(constraints[name])} |`);
+        if (!config.noDescriptions) {
+            stream.write(` ${mdEsc(data.description)} |`);
+        }
+        stream.write('\n');
         i++;
     }
 }
