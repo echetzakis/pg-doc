@@ -12,7 +12,7 @@ This is the description for table 1
 |--:|------|----|--------|-------|-----------|-----------|
 | 1 | id |  integer | NO | nextval('table1_id_seq'::regclass) | **PK** | This is the id (PK) column |
 | 2 | name |  character varying | YES |  |  | This is the name column |
-| 3 | rank |  USER-DEFINED | NO | 'one'::table1_enum1 |  | An enumerated rank column |
+| 3 | rank |  table1_enum1 | NO | 'one'::table1_enum1 |  | An enumerated rank column |
 | 4 | data |  jsonb | NO | '{"empty": true}'::jsonb |  | This is a data (json) column |
 ### table2
 This is the description for table 2

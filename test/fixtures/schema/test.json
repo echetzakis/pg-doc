@@ -13,21 +13,25 @@
                 "type": "integer",
                 "nullable": "NO",
                 "default": "nextval('table1_id_seq'::regclass)",
-                "description": "This is the id (PK) column"
+                "description": "This is the id (PK) column",
+                "udt": false
             },
             "name": {
+                "udt": false,
                 "type": "character varying",
                 "nullable": "YES",
                 "default": null,
                 "description": "This is the name column"
             },
             "rank": {
-                "type": "USER-DEFINED",
+                "udt": true,
+                "type": "table1_enum1",
                 "nullable": "NO",
                 "default": "'one'::table1_enum1",
                 "description": "An enumerated rank column"
             },
             "data": {
+                "udt": false,
                 "type": "jsonb",
                 "nullable": "NO",
                 "default": "'{\"empty\": true}'::jsonb",
@@ -36,24 +40,28 @@
         },
         "table2": {
             "id": {
+                "udt": false,
                 "type": "integer",
                 "nullable": "NO",
                 "default": "nextval('table2_id_seq'::regclass)",
                 "description": "This is the id (PK) column"
             },
             "email": {
+                "udt": false,
                 "type": "character varying",
                 "nullable": "YES",
                 "default": null,
                 "description": "This is the email column"
             },
             "table1_id": {
+                "udt": false,
                 "type": "integer",
                 "nullable": "YES",
                 "default": null,
                 "description": "This foreign key referencing table 1"
             },
             "age": {
+                "udt": false,
                 "type": "integer",
                 "nullable": "NO",
                 "default": null,
