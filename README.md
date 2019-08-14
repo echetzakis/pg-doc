@@ -76,6 +76,19 @@ By default `pg-doc` will show the description you have defined as table/column c
 ```
 sql> COMMENT ON TABLE foo IS 'This is my foo table.';
 ```
+will be rendered as
+> ...
+> 
+> |# |Table Name| Description|
+> |--:|----------|------------|
+> |1| foo | This is my foo table. |
+> 
+> ## Details 
+> ### table1
+> This is my foo table.
+> 
+> ...
+
 If you have no comments defined you can either disable this by setting the `noDescriptions` option to `true` or provide your descriptions by adding a `descriptions` section in your `.pg-doc.json` file like so:
 ```
 {
