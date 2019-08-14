@@ -47,12 +47,18 @@ const args = yargs
         default: 20,
         describe: 'Split TOC only if number of tables is greater that this limit'
     })
+    .option('no-descriptions', {
+        alias: 'nd',
+        demandOption: false,
+        boolean: true,
+        describe: 'Don\'t output table/column descriptions'
+    })
     .help()
     .argv;
 
 // command line arguments have the highest precedence
 Object.keys(args)
-    .filter(arg => ['title', 'toc', 'splitByInitial', 'splitLimit', 'connection', 'excluded', 'out'].includes(arg))
+    .filter(arg => ['title', 'toc', 'splitByInitial', 'splitLimit', 'connection', 'excluded', 'out', 'noDescriptions'].includes(arg))
     .forEach(k => {
         config[k] = args[k];
     });

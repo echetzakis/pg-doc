@@ -2,6 +2,7 @@
 const sandbox = sinon.createSandbox();
 const rcLoader = require('../../src/rc-loader');
 const defaults = {
+    noDescriptions: false,
     toc: true,
     splitByInitial: true,
     splitLimit: 20,
@@ -9,6 +10,7 @@ const defaults = {
     out: 'DATABASE.md'
 };
 const envDefaults = {
+    PGDOC_NO_DESCRIPTIONS: true,
     PGDOC_TOC: false,
     PGDOC_CONNECTION: 'PGDOC_CONNECTION',
     PGDOC_OUT: 'PGDOC_OUT',

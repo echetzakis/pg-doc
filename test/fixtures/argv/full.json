@@ -8,5 +8,6 @@
     "excluded": [
         "CLI_EX_1",
         "CLI_EX_2"
-    ]
+    ],
+    "noDescriptions": true
 }

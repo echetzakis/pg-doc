@@ -4,5 +4,6 @@
     "splitByInitial": true,
     "splitLimit": 20,
     "title": "CLI_TITLE",
-    "out": "CLI_OUT"
+    "out": "CLI_OUT",
+    "noDescriptions": false
 }

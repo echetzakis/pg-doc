@@ -1,6 +1,7 @@
 /* eslint-disable no-process-env */
 const rcLoader = require('./rc-loader');
 const config = {
+    noDescriptions: false,
     toc: true,
     splitByInitial: true,
     splitLimit: 20,
@@ -14,6 +15,7 @@ Object.assign(config, opts);
 
 // From env
 const env = {
+    noDescriptions: process.env.PGDOC_NO_DESCRIPTIONS ? process.env.PGDOC_NO_DESCRIPTIONS === 'true' : false,
     toc: process.env.PGDOC_TOC ? process.env.PGDOC_TOC === 'true' : null,
     connection: process.env.PGDOC_CONNECTION,
     out: process.env.PGDOC_OUT,

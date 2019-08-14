@@ -8,5 +8,6 @@
     "splitByInitial": false,
     "splitLimit": 0,
     "title": "TEST_TITLE",
-    "out": "TEST_OUT.md"
+    "out": "TEST_OUT.md",
+    "noDescriptions": false
 }
