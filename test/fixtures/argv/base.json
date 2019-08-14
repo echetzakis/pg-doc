@@ -4,5 +4,6 @@
     "splitByInitial": true,
     "splitLimit": 20,
     "title": "Database Documentation",
-    "out": "DATABASE.md"
+    "out": "DATABASE.md",
+    "noDescriptions": false
 }

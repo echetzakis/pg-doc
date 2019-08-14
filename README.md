@@ -18,17 +18,18 @@ npm i -g pg-doc
 Usage: pg-doc [options]
 
 Options:
-  --version               Show version number                          [boolean]
-  --connection, --db      Database Connection URL                       [string]
-  --out, -o               The file name of the output                   [string]
-  --title, -t             The title of the document                     [string]
-  --excluded, --ex        Tables to be excluded                          [array]
-  --toc                   Add a table of contents (TOC) section
+  --version                Show version number                         [boolean]
+  --connection, --db       Database Connection URL           [string] [required]
+  --out, -o                The file name of the output                  [string]
+  --title, -t              The title of the document                    [string]
+  --excluded, --ex         Tables to be excluded                         [array]
+  --toc                    Add a table of contents (TOC) section
                                                        [boolean] [default: true]
-  --split-by-initial, -s  Split TOC by initial letter [boolean] [default: false]
-  --split-limit, --sl     Split TOC only if number of tables is greater that
-                          this limit                      [number] [default: 20]
-  --help                  Show help                                    [boolean]
+  --split-by-initial, -s   Split TOC by initial letter                 [boolean]
+  --split-limit, --sl      Split TOC only if number of tables is greater that
+                           this limit                     [number] [default: 20]
+  --no-descriptions, --nd  Don't output table/column descriptions      [boolean]
+  --help                   Show help                                   [boolean]
 ```
 
 # Configuration
@@ -42,6 +43,7 @@ You can put your options in a `.pg-doc.json` file in your project:
 {
     "connection": <postgres connection url>,
     "excluded": <string array>,
+    "noDescriptions": <boolean>,
     "toc": <boolean>,
     "splitByInitial": <boolean>,
     "splitLimit": <number>,
@@ -59,6 +61,8 @@ PGDOC_TITLE=<string>
 PGDOC_EXCLUDED=<comma separated strings>
 PGDOC_SPLIT_LIMIT=<number>
 PGDOC_SPLIT_BY_INITIAL=<boolean>
+PGDOC_NO_DESCRIPTIONSL=<boolean>
+PGDOC_TOC=<boolean>
 ```
 ## Precedence
 Configuration options are applied in the following order (from lowest to highest precedence):

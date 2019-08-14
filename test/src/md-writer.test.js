@@ -38,6 +38,12 @@ describe('writer test', () => {
                 assertOutput('no-toc');
             });
         });
+        describe('without descriptions', () => {
+            it('should produce the expected markdown with table/column descriptions', () => {
+                sandbox.replace(config, 'noDescriptions', true);
+                assertOutput('no-descr');
+            });
+        });
     });
 });
 
