@@ -8,14 +8,14 @@
 ### table1
 |# |column|type|nullable|default|constraints|
 |--:|------|----|--------|-------|-----------|
-| 1 | id |  integer | NO | nextval('table1_id_seq'::regclass) | **PK** |
+| 1 | id |  integer | NO | auto-increment | **PK** |
 | 2 | name |  character varying | YES |  |  |
-| 3 | rank |  table1_enum1 | NO | 'one'::table1_enum1 |  |
-| 4 | data |  jsonb | NO | '{"empty": true}'::jsonb |  |
+| 3 | rank |  table1_enum1 | NO | 'one' |  |
+| 4 | data |  jsonb | NO | '{"empty": true}' |  |
 ### table2
 |# |column|type|nullable|default|constraints|
 |--:|------|----|--------|-------|-----------|
-| 1 | id |  integer | NO | nextval('table2_id_seq'::regclass) | **PK** |
+| 1 | id |  integer | NO | auto-increment | **PK** |
 | 2 | email |  character varying | YES |  | **UNIQ** |
 | 3 | table1_id |  integer | YES |  | **FK** ([table1.id](#table1)) |
 | 4 | age |  integer | NO |  |  |

@@ -85,7 +85,7 @@ function columnReducer(mem, current) {
         udt,
         type,
         nullable: current.is_nullable,
-        default: current.column_default,
+        default: resolveDefaultValue(current.column_default),
         description: resolveDescription(current.table_name, current.column_name, current.description)
     };
     return mem;
@@ -100,6 +100,22 @@ function resolveDescription(...args) {
     const name = col ? `${table}.${col}` : table;
     let confDesc = config.descriptions ? config.descriptions[name] : null;
     return confDesc || pgDesc || '';
+}
+
+function resolveDefaultValue(defaultValue) {
+    if (!defaultValue) {
+        return defaultValue;
+    }
+    // nextval
+    if (defaultValue.startsWith('nextval')) {
+        return 'auto-increment';
+    }
+    // value::type
+    const parts = defaultValue.split('::');
+    if (parts.length === 2) {
+        return parts[0];
+    }
+    return defaultValue;
 }
 
 async function schemaMetadata() {

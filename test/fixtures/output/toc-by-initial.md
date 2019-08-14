@@ -12,16 +12,16 @@ This is the description for table 1
 
 |# |column|type|nullable|default|constraints|description|
 |--:|------|----|--------|-------|-----------|-----------|
-| 1 | id |  integer | NO | nextval('table1_id_seq'::regclass) | **PK** | This is the id (PK) column |
+| 1 | id |  integer | NO | auto-increment | **PK** | This is the id (PK) column |
 | 2 | name |  character varying | YES |  |  | This is the name column |
-| 3 | rank |  table1_enum1 | NO | 'one'::table1_enum1 |  | An enumerated rank column |
-| 4 | data |  jsonb | NO | '{"empty": true}'::jsonb |  | This is a data (json) column |
+| 3 | rank |  table1_enum1 | NO | 'one' |  | An enumerated rank column |
+| 4 | data |  jsonb | NO | '{"empty": true}' |  | This is a data (json) column |
 ### table2
 This is the description for table 2
 
 |# |column|type|nullable|default|constraints|description|
 |--:|------|----|--------|-------|-----------|-----------|
-| 1 | id |  integer | NO | nextval('table2_id_seq'::regclass) | **PK** | This is the id (PK) column |
+| 1 | id |  integer | NO | auto-increment | **PK** | This is the id (PK) column |
 | 2 | email |  character varying | YES |  | **UNIQ** | This is the email column |
 | 3 | table1_id |  integer | YES |  | **FK** ([table1.id](#table1)) | This foreign key referencing table 1 |
 | 4 | age |  integer | NO |  |  | This is the age column |
