@@ -12,7 +12,7 @@
             "id": {
                 "type": "integer",
                 "nullable": "NO",
-                "default": "nextval('table1_id_seq'::regclass)",
+                "default": "auto-increment",
                 "description": "Configured table1.id description",
                 "udt": false
             },
@@ -27,14 +27,14 @@
                 "udt": true,
                 "type": "table1_enum1",
                 "nullable": "NO",
-                "default": "'one'::table1_enum1",
+                "default": "'one'",
                 "description": "Configured table1.rank description"
             },
             "data": {
                 "udt": false,
                 "type": "jsonb",
                 "nullable": "NO",
-                "default": "'{\"empty\": true}'::jsonb",
+                "default": "'{\"empty\": true}'",
                 "description": "Configured table1.data description"
             }
         },
@@ -43,7 +43,7 @@
                 "udt": false,
                 "type": "integer",
                 "nullable": "NO",
-                "default": "nextval('table2_id_seq'::regclass)",
+                "default": "auto-increment",
                 "description": "This is the id (PK) column"
             },
             "email": {
