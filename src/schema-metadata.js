@@ -25,6 +25,7 @@ function getColumns(db, tables) {
         'columns.table_name',
         'columns.column_name',
         'columns.data_type',
+        'columns.udt_name',
         'columns.column_default',
         'columns.is_nullable',
         db.raw('col_description(columns.table_name::regclass::oid, columns.ordinal_position) as description')
@@ -77,17 +78,16 @@ function columnReducer(mem, current) {
     if (!table) {
         mem[current.table_name] = table = {};
     }
+    const udt = current.data_type === 'USER-DEFINED';
+    const type = udt ? current.udt_name : current.data_type;
     table[current.column_name] = {
-        type: current.data_type,
+        udt,
+        type,
         nullable: current.is_nullable,
-        default: defaultValueProcessor(current.column_default),
+        default: current.column_default,
         description: current.description || ''
     };
     return mem;
-}
-
-function defaultValueProcessor(defaultValue) {
-    return defaultValue;
 }
 
 async function schemaMetadata() {
