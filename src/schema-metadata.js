@@ -16,7 +16,8 @@ function getTables(db) {
 }
 
 function tableReducer(mem, tab) {
-    mem[tab.table_name] = { description: tab.description || '' };
+    const description = resolveDescription(tab.table_name, tab.description);
+    mem[tab.table_name] = { description };
     return mem;
 }
 
@@ -85,9 +86,20 @@ function columnReducer(mem, current) {
         type,
         nullable: current.is_nullable,
         default: current.column_default,
-        description: current.description || ''
+        description: resolveDescription(current.table_name, current.column_name, current.description)
     };
     return mem;
+}
+
+function resolveDescription(...args) {
+    let [table, col, pgDesc] = args;
+    if (args.length === 2) {
+        pgDesc = col;
+        col = null;
+    }
+    const name = col ? `${table}.${col}` : table;
+    let confDesc = config.descriptions ? config.descriptions[name] : null;
+    return confDesc || pgDesc || '';
 }
 
 async function schemaMetadata() {
