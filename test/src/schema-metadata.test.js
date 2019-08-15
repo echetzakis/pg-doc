@@ -16,7 +16,7 @@ describe('schema metadata test', () => {
             config.excluded = ['migrations', 'migrations_lock'];
             config.descriptions = null;
             const schemaMetadata = require('../../src/schema-metadata');
-            return schemaMetadata().then(schemaMetadata => {
+            return schemaMetadata(config).then(schemaMetadata => {
                 schemaMetadata.should.be.eql(fixtures.schema.test);
             });
         });
@@ -35,7 +35,7 @@ describe('schema metadata test', () => {
                 'table1.data': 'Configured table1.data description'
             };
             const schemaMetadata = require('../../src/schema-metadata');
-            return schemaMetadata().then(foo => {
+            return schemaMetadata(config).then(foo => {
                 foo.should.be.eql(fixtures.schema['custom-descriptions']);
             });
         });

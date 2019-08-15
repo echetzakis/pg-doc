@@ -1,7 +1,7 @@
-const { version } = require('../package.json');
-const config = require('./config');
+const { version } = require('../../package.json');
+const config = require('../config');
 
-function writeDoc(context) {
+function render(context) {
     header(context);
     toc(context);
     details(context);
@@ -123,4 +123,4 @@ function footer({ stream }) {
     stream.end();
 }
 
-module.exports = writeDoc;
+module.exports = render;
