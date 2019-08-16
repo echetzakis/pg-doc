@@ -8,33 +8,22 @@ function render(context) {
     footer(context);
 }
 
-function header({ stream }) {
-    const title = config.title;
+function header({ title, stream }) {
     stream.write(`# ${title}\n`);
 }
 
-function toc({ stream, tables }) {
+function toc({ stream, schema }) {
     if (!config.toc) {
         return;
     }
     let i = 1;
-    const names = Object.keys(tables).sort();
-    let initial = names[0][0].toUpperCase();
-    const splitByInitial = config.splitByInitial && names.length > config.splitLimit;
+    const names = Object.keys(schema.tables).sort();
     stream.write('## Tables \n');
-    if (splitByInitial) {
-        navBar(stream, names);
-    }
-    tocHeader(stream, splitByInitial, initial);
+    tocHeader(stream);
     names.forEach(name => {
-        let newInitial = name[0].toUpperCase();
-        if (splitByInitial && initial !== newInitial) {
-            initial = newInitial;
-            tocHeader(stream, splitByInitial, initial);
-        }
         stream.write(`|${i}| [${name}](#${name}) |`);
         if (!config.noDescriptions) {
-            stream.write(` ${tables[name].description} |`);
+            stream.write(` ${schema.tables[name].description} |`);
         }
         stream.write('\n');
         i++;
@@ -51,10 +40,7 @@ function navBar(stream, names) {
     stream.write('\n');
 }
 
-function tocHeader(stream, splitByInitial, initial) {
-    if (splitByInitial) {
-        stream.write(`### ${initial} \n`);
-    }
+function tocHeader(stream) {
     if (config.noDescriptions) {
         stream.write('|\# |Table Name|\n|--:|----------|\n');
     } else {
@@ -62,19 +48,19 @@ function tocHeader(stream, splitByInitial, initial) {
     }
 }
 
-function details({ stream, tables }) {
+function details({ stream, schema }) {
     stream.write('## Details \n');
-    for (let table in tables) {
+    for (let table in schema.tables) {
         stream.write(`### ${table}\n`);
         if (config.noDescriptions) {
             stream.write('|\# |column|type|nullable|default|constraints|\n');
             stream.write('|--:|------|----|--------|-------|-----------|\n');
         } else {
-            stream.write(`${tables[table].description}\n\n`);
+            stream.write(`${schema.tables[table].description}\n\n`);
             stream.write('|\# |column|type|nullable|default|constraints|description|\n');
             stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
         }
-        columnDetails({ stream, columns: tables[table].columns});
+        columnDetails({ stream, columns: schema.tables[table].columns });
     }
 }
 

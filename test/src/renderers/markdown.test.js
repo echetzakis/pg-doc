@@ -3,7 +3,7 @@ const { readFileSync } = require('fs');
 const path = require('path');
 const sandbox = require('sinon').createSandbox();
 const proxyquire = require('proxyquire');
-const markdown = proxyquire('../../../src/renderers/markdown', { '../../package.json': {version: '1.0.0'} });
+const markdown = proxyquire('../../../src/renderers/markdown', { '../../package.json': { version: '1.0.0' } });
 const config = require('../../../src/config');
 
 describe('writer test', () => {
@@ -25,7 +25,7 @@ describe('writer test', () => {
                 assertOutput('custom-title');
             });
         });
-       
+
         describe('without toc', () => {
             it('should produce the expected markdown with custom title', () => {
                 sandbox.replace(config, 'toc', false);
@@ -51,7 +51,7 @@ function assertOutput(name = 'default') {
     });
     const file = path.join(process.cwd(), `/test/fixtures/output/${name}.md`);
     const expected = readFileSync(file).toString();
-    const context = Object.assign({ stream: streamMock }, fixtures.schema.test);
+    const context = Object.assign({ stream: streamMock, title: config.title }, fixtures.schema.test);
     markdown(context);
     buffer.join('').should.equal(expected);
 }

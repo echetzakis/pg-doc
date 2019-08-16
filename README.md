@@ -29,10 +29,10 @@ Options:
   --excluded, --ex         Tables to be excluded                         [array]
   --toc                    Add a table of contents (TOC) section
                                                        [boolean] [default: true]
-  --split-by-initial, -s   Split TOC by initial letter                 [boolean]
-  --split-limit, --sl      Split TOC only if number of tables is greater that
-                           this limit                     [number] [default: 20]
   --no-descriptions, --nd  Don't output table/column descriptions      [boolean]
+  --paging-mode, --pm      Split output in several (pages) files based on the
+                           selected strategy           [choices: "abc", "count"]
+  --page-size, --ps                                       [number] [default: 20]
   --help                   Show help                                   [boolean]
 ```
 
@@ -100,3 +100,5 @@ If you have no comments defined you can either disable this by setting the `noDe
     }
 }
 ```
+
+# Paging
