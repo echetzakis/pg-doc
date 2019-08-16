@@ -1,13 +1,13 @@
 {
     "connection": "CLI_CONNECTION",
     "toc": false,
-    "splitByInitial": false,
-    "splitLimit": 101,
     "title": "CLI_TITLE",
     "out": "CLI_OUT",
     "excluded": [
         "CLI_EX_1",
         "CLI_EX_2"
     ],
-    "noDescriptions": true
+    "noDescriptions": true,
+    "pageSize": 50,
+    "pagingMode": "abc"
 }

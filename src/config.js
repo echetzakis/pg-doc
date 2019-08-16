@@ -3,8 +3,7 @@ const rcLoader = require('./rc-loader');
 const config = {
     noDescriptions: false,
     toc: true,
-    splitByInitial: true,
-    splitLimit: 20,
+    pageSize: 20,
     title: 'Database Documentation',
     out: 'DATABASE.md'
 };
@@ -21,8 +20,8 @@ const env = {
     out: process.env.PGDOC_OUT,
     title: process.env.PGDOC_TITLE,
     excluded: process.env.PGDOC_EXCLUDED ? process.env.PGDOC_EXCLUDED.split(',').map(s => s.trim()) : null,
-    splitLimit: parseInt(process.env.PGDOC_SPLIT_LIMIT, 10) || null,
-    splitByInitial: process.env.PGDOC_SPLIT_BY_INITIAL ? process.env.PGDOC_SPLIT_BY_INITIAL === 'true' : null
+    pageSize: parseInt(process.env.PGDOC_PAGE_SIZE, 10) || null,
+    pagingMode: ['abc', 'count'].includes(process.env.PGDOC_PAGING_MODE) ? process.env.PGDOC_PAGING_MODE : null
 };
 
 // Env overrides .pg-doc.json

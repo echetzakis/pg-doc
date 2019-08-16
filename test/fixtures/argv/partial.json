@@ -1,9 +1,8 @@
 {
     "connection": "CLI_CONNECTION",
     "toc": true,
-    "splitByInitial": true,
-    "splitLimit": 20,
     "title": "CLI_TITLE",
     "out": "CLI_OUT",
-    "noDescriptions": false
+    "noDescriptions": false,
+    "pageSize": 20
 }

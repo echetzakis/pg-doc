@@ -4,10 +4,9 @@ const rcLoader = require('../../src/rc-loader');
 const defaults = {
     noDescriptions: false,
     toc: true,
-    splitByInitial: true,
-    splitLimit: 20,
     title: 'Database Documentation',
-    out: 'DATABASE.md'
+    out: 'DATABASE.md',
+    pageSize: 20
 };
 const envDefaults = {
     PGDOC_NO_DESCRIPTIONS: true,
@@ -16,8 +15,8 @@ const envDefaults = {
     PGDOC_OUT: 'PGDOC_OUT',
     PGDOC_TITLE: 'PGDOC_TITLE',
     PGDOC_EXCLUDED: 'PGDOC_EXCLUDED_1, PGDOC_EXCLUDED_2',
-    PGDOC_SPLIT_LIMIT: '100',
-    PGDOC_SPLIT_BY_INITIAL: 'false'
+    PGDOC_PAGING_MODE: 'count',
+    PGDOC_PAGE_SIZE: 50
 };
 
 describe('config test', () => {

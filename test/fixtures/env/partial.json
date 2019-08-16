@@ -1,9 +1,8 @@
 {
     "connection": "PGDOC_CONNECTION",
     "toc": true,
-    "splitByInitial": true,
-    "splitLimit": 20,
     "title": "PGDOC_TITLE",
     "out": "PGDOC_OUT",
-    "noDescriptions": false
+    "noDescriptions": false,
+    "pageSize": 20
 }

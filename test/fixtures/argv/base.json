@@ -1,9 +1,8 @@
 {
     "connection": "CLI_CONNECTION",
     "toc": true,
-    "splitByInitial": true,
-    "splitLimit": 20,
     "title": "Database Documentation",
     "out": "DATABASE.md",
-    "noDescriptions": false
+    "noDescriptions": false,
+    "pageSize": 20
 }

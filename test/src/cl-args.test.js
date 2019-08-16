@@ -34,7 +34,7 @@ describe('command line test', () => {
     });
 
     describe('when all optional args given', () => {
-        const args = ['--o', 'CLI_OUT', '--t', 'CLI_TITLE', '--ex', 'CLI_EX_1', 'CLI_EX_2', '--toc', 'false', '--s', 'false', '--sl', '101', '--nd'];
+        const args = ['--o', 'CLI_OUT', '--t', 'CLI_TITLE', '--ex', 'CLI_EX_1', 'CLI_EX_2', '--toc', 'false', '--pm', 'abc', '--ps', '50', '--nd'];
         beforeEach(() => {
             args.forEach(_ => process.argv.push(_));
         });

@@ -5,9 +5,9 @@
         "TEST_EXCLUDED_2"
     ],
     "toc": false,
-    "splitByInitial": false,
-    "splitLimit": 0,
     "title": "TEST_TITLE",
     "out": "TEST_OUT.md",
-    "noDescriptions": false
+    "noDescriptions": false,
+    "pagingMode": "abc",
+    "pageSize": 50
 }

@@ -25,13 +25,7 @@ describe('writer test', () => {
                 assertOutput('custom-title');
             });
         });
-        describe('with toc by initial', () => {
-            it('should produce the expected markdown with custom title', () => {
-                sandbox.replace(config, 'splitByInitial', true);
-                sandbox.replace(config, 'splitLimit', 0);
-                assertOutput('toc-by-initial');
-            });
-        });
+       
         describe('without toc', () => {
             it('should produce the expected markdown with custom title', () => {
                 sandbox.replace(config, 'toc', false);
