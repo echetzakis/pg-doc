@@ -136,7 +136,7 @@ function merge(tables, columns, constraints) {
     Object.keys(tables).forEach(table => {
         tables[table].columns = columns[table];
         Object.keys(tables[table].columns).forEach(column => {
-            if (constraints[table][column]) {
+            if (constraints[table] && constraints[table][column]) {
                 tables[table].columns[column].constraints = constraints[table][column];
             }
         });
