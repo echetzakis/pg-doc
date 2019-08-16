@@ -1,7 +1,7 @@
 const knex = require('knex');
-const config = require('./config');
 
 function getTables(db) {
+    const config = this.config;
     let builder = db.select('tables.table_name', db.raw('obj_description(tables.table_name::regclass) as description'))
         .from('information_schema.tables')
         .where('tables.table_schema', 'public')
@@ -92,6 +92,7 @@ function columnReducer(mem, current) {
 }
 
 function resolveDescription(...args) {
+    const config = this.config;
     let [table, col, pgDesc] = args;
     if (args.length === 2) {
         pgDesc = col;
@@ -118,10 +119,11 @@ function resolveDefaultValue(defaultValue) {
     return defaultValue;
 }
 
-async function schemaMetadata() {
+async function schemaMetadata({ connection, excluded, descriptions }) {
+    this.config = { excluded, descriptions };
     const db = knex({
         client: 'pg',
-        connection: config.connection
+        connection
     });
     const tables = await getTables(db);
     const columns = await getColumns(db, Object.keys(tables));

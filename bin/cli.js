@@ -3,13 +3,13 @@
 const fs = require('fs');
 const timeSpan = require('time-span');
 const schemaMetadata = require('../src/schema-metadata');
-const writeDoc = require('../src/md-writer');
+const markdown = require('../src/renderers/markdown');
 const config = require('../src/cl-args');
 
 async function createDoc() {
     const context = await schemaMetadata();
     context.stream = fs.createWriteStream(config.out);
-    writeDoc(context);
+    markdown(context);
     report(context);
 }
 

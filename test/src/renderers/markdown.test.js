@@ -3,8 +3,8 @@ const { readFileSync } = require('fs');
 const path = require('path');
 const sandbox = require('sinon').createSandbox();
 const proxyquire = require('proxyquire');
-const writeDoc = proxyquire('../../src/md-writer', { '../package.json': {version: '1.0.0'} });
-const config = require('../../src/config');
+const markdown = proxyquire('../../../src/renderers/markdown', { '../../package.json': {version: '1.0.0'} });
+const config = require('../../../src/config');
 
 describe('writer test', () => {
     beforeEach(() => {
@@ -13,7 +13,7 @@ describe('writer test', () => {
     afterEach(() => {
         sandbox.restore();
     });
-    describe('writeDoc', () => {
+    describe('markdown', () => {
         describe('with default config ', () => {
             it('should produce the expected markdown', () => {
                 assertOutput();
@@ -58,6 +58,6 @@ function assertOutput(name = 'default') {
     const file = path.join(process.cwd(), `/test/fixtures/output/${name}.md`);
     const expected = readFileSync(file).toString();
     const context = Object.assign({ stream: streamMock }, fixtures.schema.test);
-    writeDoc(context);
+    markdown(context);
     buffer.join('').should.equal(expected);
 }
