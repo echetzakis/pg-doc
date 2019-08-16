@@ -34,31 +34,28 @@ const args = yargs
         default: true,
         describe: 'Add a table of contents (TOC) section'
     })
-    .option('split-by-initial', {
-        alias: 's',
-        boolean: true,
-        demandOption: false,
-        describe: 'Split TOC by initial letter'
-    })
-    .option('split-limit', {
-        alias: 'sl',
-        demandOption: false,
-        type: 'number',
-        default: 20,
-        describe: 'Split TOC only if number of tables is greater that this limit'
-    })
     .option('no-descriptions', {
         alias: 'nd',
         demandOption: false,
         boolean: true,
         describe: 'Don\'t output table/column descriptions'
+    }).option('paging-mode', {
+        alias: 'pm',
+        demandOption: false,
+        choices: ['abc', 'count'],
+        describe: 'Split output in several (pages) files based on the selected strategy'
+    }).option('page-size', {
+        alias: 'ps',
+        demandOption: false,
+        default: 20,
+        type: 'number'
     })
     .help()
     .argv;
 
 // command line arguments have the highest precedence
 Object.keys(args)
-    .filter(arg => ['title', 'toc', 'splitByInitial', 'splitLimit', 'connection', 'excluded', 'out', 'noDescriptions'].includes(arg))
+    .filter(arg => ['title', 'toc', 'pagingMode', 'pageSize', 'connection', 'excluded', 'out', 'noDescriptions'].includes(arg))
     .forEach(k => {
         config[k] = args[k];
     });
