@@ -1,101 +1,83 @@
 {
     "tables": {
         "table1": {
-            "description": "Configured description for table 1"
-        },
-        "table2": {
-            "description": "Configured description for table 2"
-        }
-    },
-    "columns": {
-        "table1": {
-            "id": {
-                "type": "integer",
-                "nullable": "NO",
-                "default": "auto-increment",
-                "description": "Configured table1.id description",
-                "udt": false
-            },
-            "name": {
-                "udt": false,
-                "type": "character varying",
-                "nullable": "YES",
-                "default": null,
-                "description": "Configured table1.name description"
-            },
-            "rank": {
-                "udt": true,
-                "type": "table1_enum1",
-                "nullable": "NO",
-                "default": "'one'",
-                "description": "Configured table1.rank description"
-            },
-            "data": {
-                "udt": false,
-                "type": "jsonb",
-                "nullable": "NO",
-                "default": "'{\"empty\": true}'",
-                "description": "Configured table1.data description"
+            "description": "Configured description for table 1",
+            "columns":{
+                "id": {
+                    "type": "integer",
+                    "nullable": "NO",
+                    "default": "auto-increment",
+                    "description": "Configured table1.id description",
+                    "udt": false,
+                    "constraints": {
+                        "pk": true
+                    }
+                },
+                "name": {
+                    "udt": false,
+                    "type": "character varying",
+                    "nullable": "YES",
+                    "default": null,
+                    "description": "Configured table1.name description"
+                },
+                "rank": {
+                    "udt": true,
+                    "type": "table1_enum1",
+                    "nullable": "NO",
+                    "default": "'one'",
+                    "description": "Configured table1.rank description"
+                },
+                "data": {
+                    "udt": false,
+                    "type": "jsonb",
+                    "nullable": "NO",
+                    "default": "'{\"empty\": true}'",
+                    "description": "Configured table1.data description"
+                }
             }
         },
         "table2": {
-            "id": {
-                "udt": false,
-                "type": "integer",
-                "nullable": "NO",
-                "default": "auto-increment",
-                "description": "This is the id (PK) column"
-            },
-            "email": {
-                "udt": false,
-                "type": "character varying",
-                "nullable": "YES",
-                "default": null,
-                "description": "This is the email column"
-            },
-            "table1_id": {
-                "udt": false,
-                "type": "integer",
-                "nullable": "YES",
-                "default": null,
-                "description": "This foreign key referencing table 1"
-            },
-            "age": {
-                "udt": false,
-                "type": "integer",
-                "nullable": "NO",
-                "default": null,
-                "description": "This is the age column"
-            }
-        }
-    },
-    "constraints": {
-        "migrations": {
-            "id": {
-                "pk": true
-            }
-        },
-        "migrations_lock": {
-            "index": {
-                "pk": true
-            }
-        },
-        "table1": {
-            "id": {
-                "pk": true
-            }
-        },
-        "table2": {
-            "email": {
-                "unq": true
-            },
-            "id": {
-                "pk": true
-            },
-            "table1_id": {
-                "fk": {
-                    "table": "table1",
-                    "column": "id"
+            "description": "Configured description for table 2",
+            "columns": {
+                "id": {
+                    "udt": false,
+                    "type": "integer",
+                    "nullable": "NO",
+                    "default": "auto-increment",
+                    "description": "This is the id (PK) column",
+                    "constraints": {
+                        "pk": true
+                    }
+                },
+                "email": {
+                    "udt": false,
+                    "type": "character varying",
+                    "nullable": "YES",
+                    "default": null,
+                    "description": "This is the email column",
+                    "constraints": {
+                        "unq": true
+                    }
+                },
+                "table1_id": {
+                    "udt": false,
+                    "type": "integer",
+                    "nullable": "YES",
+                    "default": null,
+                    "description": "This foreign key referencing table 1",
+                    "constraints": {
+                        "fk": {
+                            "table": "table1",
+                            "column": "id"
+                        }
+                    }
+                },
+                "age": {
+                    "udt": false,
+                    "type": "integer",
+                    "nullable": "NO",
+                    "default": null,
+                    "description": "This is the age column"
                 }
             }
         }
