@@ -129,7 +129,19 @@ async function schemaMetadata({ connection, excluded, descriptions }) {
     const columns = await getColumns(db, Object.keys(tables));
     const constraints = await getConstraints(db);
     db.destroy();
-    return { tables, columns, constraints };
+    return merge(tables, columns, constraints);
+}
+
+function merge(tables, columns, constraints) {
+    Object.keys(tables).forEach(table => {
+        tables[table].columns = columns[table];
+        Object.keys(tables[table].columns).forEach(column => {
+            if (constraints[table][column]) {
+                tables[table].columns[column].constraints = constraints[table][column];
+            }
+        });
+    });
+    return { tables };
 }
 
 module.exports = schemaMetadata;

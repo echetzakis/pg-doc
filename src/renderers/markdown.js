@@ -62,7 +62,7 @@ function tocHeader(stream, splitByInitial, initial) {
     }
 }
 
-function details({ stream, tables, columns, constraints }) {
+function details({ stream, tables }) {
     stream.write('## Details \n');
     for (let table in tables) {
         stream.write(`### ${table}\n`);
@@ -74,15 +74,15 @@ function details({ stream, tables, columns, constraints }) {
             stream.write('|\# |column|type|nullable|default|constraints|description|\n');
             stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
         }
-        columnDetails({ stream, columns: columns[table] || {}, constraints: constraints[table] || {} });
+        columnDetails({ stream, columns: tables[table].columns});
     }
 }
 
-function columnDetails({ stream, columns, constraints }) {
+function columnDetails({ stream, columns }) {
     let i = 1;
     for (let name in columns) {
         const data = columns[name];
-        stream.write(`| ${i} | ${name} |  ${data.type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(constraints[name])} |`);
+        stream.write(`| ${i} | ${name} |  ${data.type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(data.constraints)} |`);
         if (!config.noDescriptions) {
             stream.write(` ${mdEsc(data.description)} |`);
         }
