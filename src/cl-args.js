@@ -10,6 +10,12 @@ const args = yargs
         type: 'string',
         describe: 'Database Connection URL'
     })
+    .option('schema', {
+        demandOption: false,
+        type: 'string',
+        default: 'public',
+        describe: 'The database schema'
+    })
     .option('out', {
         alias: 'o',
         demandOption: !config.out,
@@ -58,7 +64,7 @@ const args = yargs
 
 // command line arguments have the highest precedence
 Object.keys(args)
-    .filter(arg => ['title', 'toc', 'splitByInitial', 'splitLimit', 'connection', 'excluded', 'out', 'noDescriptions'].includes(arg))
+    .filter(arg => ['title', 'toc', 'splitByInitial', 'splitLimit', 'connection', 'excluded', 'out', 'noDescriptions', 'schema'].includes(arg))
     .forEach(k => {
         config[k] = args[k];
     });

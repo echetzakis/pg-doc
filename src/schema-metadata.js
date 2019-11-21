@@ -2,9 +2,9 @@ const knex = require('knex');
 
 function getTables(db) {
     const config = this.config;
-    let builder = db.select('tables.table_name', db.raw('obj_description(tables.table_name::regclass) as description'))
+    let builder = db.select('tables.table_name', db.raw('obj_description((tables.table_schema || \'.\' || tables.table_name)::regclass) as description'))
         .from('information_schema.tables')
-        .where('tables.table_schema', 'public')
+        .where('tables.table_schema', config.schema)
         .where('tables.table_type', 'BASE TABLE')
         .orderBy('tables.table_name', 'asc');
 
@@ -22,6 +22,7 @@ function tableReducer(mem, tab) {
 }
 
 function getColumns(db, tables) {
+    const config = this.config;
     return db.select(
         'columns.table_name',
         'columns.column_name',
@@ -29,9 +30,10 @@ function getColumns(db, tables) {
         'columns.udt_name',
         'columns.column_default',
         'columns.is_nullable',
-        db.raw('col_description(columns.table_name::regclass::oid, columns.ordinal_position) as description')
+        db.raw('col_description((columns.table_schema || \'.\' || columns.table_name)::regclass::oid, columns.ordinal_position) as description')
     ).from('information_schema.columns')
         .whereIn('columns.table_name', tables)
+        .where('columns.table_schema', config.schema)
         .orderBy(['columns.table_name', 'columns.ordinal_position'])
         .then(rows => rows.reduce(columnReducer, {}));
 }
@@ -119,8 +121,8 @@ function resolveDefaultValue(defaultValue) {
     return defaultValue;
 }
 
-async function schemaMetadata({ connection, excluded, descriptions }) {
-    this.config = { excluded, descriptions };
+async function schemaMetadata({ connection, schema, excluded, descriptions }) {
+    this.config = { schema, excluded, descriptions };
     const db = knex({
         client: 'pg',
         connection

@@ -7,7 +7,7 @@ const markdown = require('../src/renderers/markdown');
 const config = require('../src/cl-args');
 
 async function createDoc() {
-    const context = await schemaMetadata();
+    const context = await schemaMetadata(config);
     context.stream = fs.createWriteStream(config.out);
     markdown(context);
     report(context);
@@ -15,7 +15,7 @@ async function createDoc() {
 
 function report(context) {
     const tables = Object.keys(context.tables);
-    const columns = tables.map(name => Object.keys(context.columns[name]).length).reduce((sum, count) => sum + count);
+    const columns = tables.map(name => Object.keys(context.tables[name].columns).length).reduce((sum, count) => sum + count);
     console.log('Created documentation for:');
     console.log(` * ${tables.length} - Tables`);
     console.log(` * ${columns} - Columns`);
