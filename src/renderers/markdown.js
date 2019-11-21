@@ -13,7 +13,7 @@ function header({ stream }) {
     stream.write(`# ${title}\n`);
 }
 
-function toc({ stream, tables }) {
+function toc({ stream, tables, types, enums }) {
     if (!config.toc) {
         return;
     }
@@ -62,7 +62,7 @@ function tocHeader(stream, splitByInitial, initial) {
     }
 }
 
-function details({ stream, tables }) {
+function details({ stream, tables, types, enums }) {
     stream.write('## Details \n');
     for (let table in tables) {
         stream.write(`### ${table}\n`);
@@ -74,15 +74,51 @@ function details({ stream, tables }) {
             stream.write('|\# |column|type|nullable|default|constraints|description|\n');
             stream.write('|--:|------|----|--------|-------|-----------|-----------|\n');
         }
-        columnDetails({ stream, columns: tables[table].columns});
+        columnDetails({ stream, columns: tables[table].columns, types, enums});
+    }
+
+    stream.write('## Types \n');
+    for (let type in types) {
+        stream.write(`### ${type}\n`);
+        stream.write('|\# |property|type|nullable|\n');
+        stream.write('|--:|--------|----|--------|\n');
+        propertyDetails({ stream, properties: types[type], types, enums });
+    }
+    stream.write('## Enums \n');
+    for (let enumt in enums) {
+        stream.write(`### ${enumt}\n`);
+        stream.write('|\# |value|\n');
+        stream.write('|--:|-----|\n');
+        enumDetails({ stream, values: enums[enumt] });
     }
 }
 
-function columnDetails({ stream, columns }) {
+function propertyDetails({ stream, properties, types, enums }) {
+    let i = 1;
+    for (let name in properties) {
+        const data = properties[name];
+        const type = types[data.type] || enums[data.type] ?
+            `[${data.type}](#${data.type})` : data.type;
+        stream.write(`| ${i} | ${name} | ${type} | ${data.nullable} |\n`);
+        i++;
+    }
+}
+
+function enumDetails({ stream, values }) {
+    let i = 1;
+    for (let value of values) {
+        stream.write(`| ${i} | ${value} |\n`);
+        i++;
+    }
+}
+
+function columnDetails({ stream, columns, types, enums }) {
     let i = 1;
     for (let name in columns) {
         const data = columns[name];
-        stream.write(`| ${i} | ${name} |  ${data.type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(data.constraints)} |`);
+        const type = types[data.type] || enums[data.type] ?
+            `[${data.type}](#${data.type})` : data.type;
+        stream.write(`| ${i} | ${name} |  ${type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(data.constraints)} |`);
         if (!config.noDescriptions) {
             stream.write(` ${mdEsc(data.description)} |`);
         }

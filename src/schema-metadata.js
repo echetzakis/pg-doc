@@ -28,6 +28,7 @@ function getColumns(db, tables) {
         'columns.column_name',
         'columns.data_type',
         'columns.udt_name',
+        'columns.udt_schema',
         'columns.column_default',
         'columns.is_nullable',
         db.raw('col_description((columns.table_schema || \'.\' || columns.table_name)::regclass::oid, columns.ordinal_position) as description')
@@ -51,6 +52,89 @@ function getConstraints(db) {
         .whereIn('table_constraints.constraint_type', ['FOREIGN KEY', 'UNIQUE', 'PRIMARY KEY'])
         .orderBy(['key_column_usage.table_name', 'key_column_usage.column_name'])
         .then(rows => rows.reduce(constraintsReducer, {}));
+}
+
+async function getUserDefinedTypes(db, types, oldTypes) {
+    const config = this.config;
+    const enums = await db.select(
+        db.ref('pg_type.typname').as('name'),
+        db.ref('pg_enum.enumlabel').as('value')
+    ).from('pg_type')
+        .innerJoin('pg_enum', 'pg_enum.enumtypid', 'pg_type.oid')
+        .whereIn('pg_type.oid', db.raw(types.map(type => `'${type}'::regtype`)))
+        .orderBy(['pg_type.typname', 'pg_enum.enumsortorder'])
+        .then(rows => rows.reduce(enumsReducer, {}));
+
+    const udtypes = await db.select(
+        db.ref('pgt1.typname').as('name'),
+        db.ref('pg_attribute.attname').as('property'),
+        db.ref('pg_attribute.attnotnull').as('notnull'),
+        db.ref('pg_namespace.nspname').as('schema'),
+        db.ref('pgt2.typname').as('type')
+    ).from('pg_type as pgt1')
+        .innerJoin('pg_attribute', 'pg_attribute.attrelid', 'pgt1.typrelid')
+        .innerJoin('pg_type as pgt2', 'pgt2.oid', 'pg_attribute.atttypid')
+        .innerJoin('pg_namespace', 'pg_namespace.oid', 'pgt2.typnamespace')
+        .whereIn('pgt1.oid', db.raw(types.map(type => `'${type}'::regtype`)))
+        .then(rows => rows.reduce(typesReducer, {}));
+
+    const newTypes = [];
+    Object.keys(udtypes).forEach(udt => {
+        Object.keys(udtypes[udt]).forEach(prop => {
+            const propName = `${udtypes[udt][prop].schema}.${udtypes[udt][prop].type}`;
+            if (udtypes[udt][prop].schema === config.schema &&
+                types.indexOf(propName) < 0 &&
+                newTypes.indexOf(propName) < 0) {
+                newTypes.push(propName);
+            }
+        });
+    });
+
+    if (newTypes.length > 0) {
+        const newDefs = await getUserDefinedTypes(db, newTypes, types.concat(oldTypes));
+        Object.assign(udtypes, newDefs.types);
+        Object.assign(enums, newDefs.enums);
+    }
+
+    return { types: udtypes, enums };
+}
+
+function getUserDefinedTypesFromColumns(db, columns) {
+    const config = this.config;
+    const types = [];
+    Object.keys(columns).forEach(table => {
+        Object.keys(columns[table]).forEach(column => {
+            if (columns[table][column].udt &&
+                columns[table][column].udtSchema === config.schema &&
+                types.indexOf(columns[table][column].type) < 0) {
+                types.push(`${config.schema}.${columns[table][column].type}`);
+            }
+        });
+    });
+
+    return getUserDefinedTypes(db, types, []);
+}
+
+function typesReducer(mem, type) {
+    let tdata = mem[type.name];
+    if (!tdata) {
+        mem[type.name] = tdata = {};
+    }
+    tdata[type.property] = {
+        type: type.type,
+        schema: type.schema,
+        nullable: !type.notnull
+    };
+    return mem;
+}
+
+function enumsReducer(mem, enump) {
+    let values = mem[enump.name];
+    if (!values) {
+        mem[enump.name] = values = [];
+    }
+    values.push(enump.value);
+    return mem;
 }
 
 function constraintsReducer(mem, cons) {
@@ -86,6 +170,7 @@ function columnReducer(mem, current) {
     table[current.column_name] = {
         udt,
         type,
+        udtSchema: udt ? current.udt_schema : undefined,
         nullable: current.is_nullable,
         default: resolveDefaultValue(current.column_default),
         description: resolveDescription(current.table_name, current.column_name, current.description)
@@ -130,11 +215,12 @@ async function schemaMetadata({ connection, schema, excluded, descriptions }) {
     const tables = await getTables(db);
     const columns = await getColumns(db, Object.keys(tables));
     const constraints = await getConstraints(db);
+    const { enums, types } = await getUserDefinedTypesFromColumns(db, columns);
     db.destroy();
-    return merge(tables, columns, constraints);
+    return merge(tables, columns, constraints, enums, types);
 }
 
-function merge(tables, columns, constraints) {
+function merge(tables, columns, constraints, enums, types) {
     Object.keys(tables).forEach(table => {
         tables[table].columns = columns[table];
         Object.keys(tables[table].columns).forEach(column => {
@@ -143,7 +229,7 @@ function merge(tables, columns, constraints) {
             }
         });
     });
-    return { tables };
+    return { tables, enums, types };
 }
 
 module.exports = schemaMetadata;
