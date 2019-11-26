@@ -69,6 +69,7 @@ async function getUserDefinedTypes(db, types, oldTypes) {
         db.ref('pgt1.typname').as('name'),
         db.ref('pg_attribute.attname').as('property'),
         db.ref('pg_attribute.attnotnull').as('notnull'),
+        db.raw('pg_attribute.attndims > 0 as array'),
         db.ref('pg_namespace.nspname').as('schema'),
         db.ref('pgt2.typname').as('type')
     ).from('pg_type as pgt1')
@@ -121,7 +122,8 @@ function typesReducer(mem, type) {
         mem[type.name] = tdata = {};
     }
     tdata[type.property] = {
-        type: type.type,
+        type: type.type.replace(/^_/, ''),
+        array: type.array,
         schema: type.schema,
         nullable: !type.notnull
     };
@@ -165,10 +167,13 @@ function columnReducer(mem, current) {
     if (!table) {
         mem[current.table_name] = table = {};
     }
-    const udt = current.data_type === 'USER-DEFINED';
-    const type = udt ? current.udt_name : current.data_type;
+    const array = current.data_type === 'ARRAY';
+    const udt = current.data_type === 'USER-DEFINED' ||
+        (array && current.udt_name.indexOf('_') === 0);
+    const type = udt ? current.udt_name.replace(/^_/, '') : current.data_type;
     table[current.column_name] = {
         udt,
+        array,
         type,
         udtSchema: udt ? current.udt_schema : undefined,
         nullable: current.is_nullable,

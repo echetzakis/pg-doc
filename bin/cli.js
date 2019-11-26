@@ -16,9 +16,13 @@ async function createDoc() {
 function report(context) {
     const tables = Object.keys(context.tables);
     const columns = tables.map(name => Object.keys(context.tables[name].columns).length).reduce((sum, count) => sum + count);
+    const types = Object.keys(context.types).length;
+    const enums = Object.keys(context.enums).length;
     console.log('Created documentation for:');
     console.log(` * ${tables.length} - Tables`);
     console.log(` * ${columns} - Columns`);
+    console.log(` * ${types} - Types`);
+    console.log(` * ${enums} - Enums`);
     console.log(`generated in ${time.rounded()} milliseconds`);
 }
 
