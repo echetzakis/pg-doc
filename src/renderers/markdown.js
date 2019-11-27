@@ -97,8 +97,10 @@ function propertyDetails({ stream, properties, types, enums }) {
     let i = 1;
     for (let name in properties) {
         const data = properties[name];
-        const type = types[data.type] || enums[data.type] ?
-            `[${data.type}](#${data.type})` : data.type;
+        const type =
+            (types[data.type] || enums[data.type] ?
+                `[${data.type}](#${data.type})` : data.type) +
+            (data.array ? '[]' : '');
         stream.write(`| ${i} | ${name} | ${type} | ${data.nullable} |\n`);
         i++;
     }
@@ -116,8 +118,10 @@ function columnDetails({ stream, columns, types, enums }) {
     let i = 1;
     for (let name in columns) {
         const data = columns[name];
-        const type = types[data.type] || enums[data.type] ?
-            `[${data.type}](#${data.type})` : data.type;
+        const type =
+            (types[data.type] || enums[data.type] ?
+                `[${data.type}](#${data.type})` : data.type) +
+            (data.array ? '[]' : '');
         stream.write(`| ${i} | ${name} |  ${type} | ${data.nullable} | ${mdEsc(data.default)} | ${constraintDetails(data.constraints)} |`);
         if (!config.noDescriptions) {
             stream.write(` ${mdEsc(data.description)} |`);
