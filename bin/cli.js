@@ -1,15 +1,23 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const path = require('path');
 const timeSpan = require('time-span');
 const schemaMetadata = require('../src/schema-metadata');
 const markdown = require('../src/renderers/markdown');
+const graphviz = require('../src/renderers/dot');
 const config = require('../src/cl-args');
+
+const time = timeSpan();
 
 async function createDoc() {
     const context = await schemaMetadata(config);
-    context.stream = fs.createWriteStream(config.out);
-    markdown(context);
+    const md = path.join(config.out, 'DATABASE.md');
+    const dot = path.join(config.out, 'graph.dot');
+    // context.stream = fs.createWriteStream(md);
+    // markdown(context);
+    context.stream = fs.createWriteStream(dot);
+    graphviz(context);
     report(context);
 }
 
@@ -22,6 +30,5 @@ function report(context) {
     console.log(`generated in ${time.rounded()} milliseconds`);
 }
 
-const time = timeSpan();
 createDoc()
     .catch(e => console.error(e));

@@ -2,11 +2,8 @@
 const rcLoader = require('./rc-loader');
 const config = {
     noDescriptions: false,
-    toc: true,
-    splitByInitial: true,
-    splitLimit: 20,
     title: 'Database Documentation',
-    out: 'DATABASE.md'
+    out: process.cwd()
 };
 
 // From .pg-doc.json
@@ -16,13 +13,10 @@ Object.assign(config, opts);
 // From env
 const env = {
     noDescriptions: process.env.PGDOC_NO_DESCRIPTIONS ? process.env.PGDOC_NO_DESCRIPTIONS === 'true' : false,
-    toc: process.env.PGDOC_TOC ? process.env.PGDOC_TOC === 'true' : null,
     connection: process.env.PGDOC_CONNECTION,
     out: process.env.PGDOC_OUT,
     title: process.env.PGDOC_TITLE,
-    excluded: process.env.PGDOC_EXCLUDED ? process.env.PGDOC_EXCLUDED.split(',').map(s => s.trim()) : null,
-    splitLimit: parseInt(process.env.PGDOC_SPLIT_LIMIT, 10) || null,
-    splitByInitial: process.env.PGDOC_SPLIT_BY_INITIAL ? process.env.PGDOC_SPLIT_BY_INITIAL === 'true' : null
+    excluded: process.env.PGDOC_EXCLUDED ? process.env.PGDOC_EXCLUDED.split(',').map(s => s.trim()) : null
 };
 
 // Env overrides .pg-doc.json

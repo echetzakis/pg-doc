@@ -4,7 +4,8 @@ const config = require('../config');
 function render(context) {
     header(context);
     toc(context);
-    details(context);
+    // details(context);
+
     footer(context);
 }
 
@@ -14,24 +15,11 @@ function header({ stream }) {
 }
 
 function toc({ stream, tables }) {
-    if (!config.toc) {
-        return;
-    }
     let i = 1;
     const names = Object.keys(tables).sort();
-    let initial = names[0][0].toUpperCase();
-    const splitByInitial = config.splitByInitial && names.length > config.splitLimit;
     stream.write('## Tables \n');
-    if (splitByInitial) {
-        navBar(stream, names);
-    }
-    tocHeader(stream, splitByInitial, initial);
+    tocHeader(stream);
     names.forEach(name => {
-        let newInitial = name[0].toUpperCase();
-        if (splitByInitial && initial !== newInitial) {
-            initial = newInitial;
-            tocHeader(stream, splitByInitial, initial);
-        }
         stream.write(`|${i}| [${name}](#${name}) |`);
         if (!config.noDescriptions) {
             stream.write(` ${tables[name].description} |`);
@@ -41,20 +29,7 @@ function toc({ stream, tables }) {
     });
 }
 
-function navBar(stream, names) {
-    stream.write(names.map(name => name[0].toUpperCase()).reduce((initials, letter) => {
-        if (!initials.includes(letter)) {
-            initials.push(letter);
-        }
-        return initials;
-    }, []).map(initial => `[${initial}](#${initial})`).join(' \\| '));
-    stream.write('\n');
-}
-
-function tocHeader(stream, splitByInitial, initial) {
-    if (splitByInitial) {
-        stream.write(`### ${initial} \n`);
-    }
+function tocHeader(stream) {
     if (config.noDescriptions) {
         stream.write('|\# |Table Name|\n|--:|----------|\n');
     } else {

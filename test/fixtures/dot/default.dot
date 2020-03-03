@@ -1,0 +1,26 @@
+digraph {
+    graph [pad="0.5", nodesep="0.5", ranksep="2"];
+    node [shape=plain]
+    rankdir=LR;
+
+table1 [label=<
+<table border="0" cellborder="1" cellspacing="0">
+  <tr><td><i><b>table1</b></i></td></tr>
+  <tr><td port="id">id</td></tr>
+  <tr><td port="name">name</td></tr>
+  <tr><td port="rank">rank</td></tr>
+  <tr><td port="data">data</td></tr>
+</table>>];
+
+table2 [label=<
+<table border="0" cellborder="1" cellspacing="0">
+  <tr><td><i><b>table2</b></i></td></tr>
+  <tr><td port="id">id</td></tr>
+  <tr><td port="email">email</td></tr>
+  <tr><td port="table1_id">table1_id</td></tr>
+  <tr><td port="age">age</td></tr>
+</table>>];
+
+table2:table1_id -> table1:id
+
+}
