@@ -2,7 +2,7 @@ const knex = require('knex');
 
 function getTables(db) {
     const config = this.config;
-    let builder = db.select('tables.table_name', db.raw('obj_description(tables.table_name::regclass) as description'))
+    let builder = db.select('tables.table_name', db.raw('obj_description((quote_ident(tables.table_name))::regclass) as description'))
         .from('information_schema.tables')
         .where('tables.table_schema', 'public')
         .where('tables.table_type', 'BASE TABLE')
@@ -29,7 +29,7 @@ function getColumns(db, tables) {
         'columns.udt_name',
         'columns.column_default',
         'columns.is_nullable',
-        db.raw('col_description(columns.table_name::regclass::oid, columns.ordinal_position) as description')
+        db.raw('col_description((quote_ident(columns.table_name))::regclass::oid, columns.ordinal_position) as description')
     ).from('information_schema.columns')
         .whereIn('columns.table_name', tables)
         .orderBy(['columns.table_name', 'columns.ordinal_position'])
