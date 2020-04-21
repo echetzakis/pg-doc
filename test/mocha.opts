@@ -1,3 +1,0 @@
-# mocha.opts
---recursive
---require ./test/globals
