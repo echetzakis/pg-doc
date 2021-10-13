@@ -1,5 +1,6 @@
 /* eslint-disable no-process-env */
 const sandbox = require('sinon').createSandbox();
+const { test } = require('../knexfile');
 
 describe('schema metadata test', () => {
     beforeEach(() => {
@@ -12,7 +13,7 @@ describe('schema metadata test', () => {
     describe('schemaMetadata', () => {
         it('should return the metadata from postgres', () => {
             const config = require('../../src/config');
-            config.connection = 'http://localhost:5432/pgdoc_test';
+            config.connection = test.connection;
             config.excluded = ['migrations', 'migrations_lock'];
             config.descriptions = null;
             const schemaMetadata = require('../../src/schema-metadata');
@@ -24,7 +25,7 @@ describe('schema metadata test', () => {
     describe('when configuration contains descriptions', () => {
         it('should override postgres table/column comments with the provided ones', () => {
             const config = require('../../src/config');
-            config.connection = 'http://localhost:5432/pgdoc_test';
+            config.connection = test.connection;
             config.excluded = ['migrations', 'migrations_lock'];
             config.descriptions = {
                 table1: 'Configured description for table 1',
