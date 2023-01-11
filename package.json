@@ -33,7 +33,7 @@
     },
     "homepage": "https://github.com/echetzakis/pg-doc#readme",
     "dependencies": {
-        "knex": "^0.21.13",
+        "knex": "^2.4.0",
         "pg": "^8.5.1",
         "time-span": "^4.0.0",
         "yargs": "^16.2.0"
