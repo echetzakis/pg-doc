@@ -15,10 +15,8 @@ async function createDoc() {
 
 function report(context) {
     const tables = Object.keys(context.tables);
-    // const columns = tables.map(name => Object.keys(context.columns[name]).length).reduce((sum, count) => sum + count);
     console.log('Created documentation for:');
     console.log(` * ${tables.length} - Tables`);
-    // console.log(` * ${columns} - Columns`);
     console.log(`generated in ${time.rounded()} milliseconds`);
 }
 
