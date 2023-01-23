@@ -35,7 +35,7 @@
     "dependencies": {
         "knex": "^2.4.2",
         "pg": "^8.8.0",
-        "time-span": "^5.1.0",
+        "time-span": "^4.0.0",
         "yargs": "^17.6.2"
     },
     "devDependencies": {
