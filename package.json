@@ -1,6 +1,6 @@
 {
     "name": "pg-doc",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "description": "Produce schema documentation for your Postgres database in markdown format",
     "scripts": {
         "db:create": "NODE_ENV=admin node node_modules/knex/bin/cli.js --knexfile ./test/knexfile.js migrate:latest",
