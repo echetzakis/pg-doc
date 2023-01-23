@@ -1,24 +1,26 @@
+# pg-doc
+
 <img src="icon.png" align="right" />
 
-[![npm version](https://badge.fury.io/js/pg-doc.svg)](https://badge.fury.io/js/pg-doc)
-
-# pg-doc
+[![npm version](https://badge.fury.io/js/pg-doc.svg?)](https://badge.fury.io/js/pg-doc)
 
 Produce **markdown** schema documentation for your **Postgres** database.
 
-# Installation
-```
+## Installation
+
+```sh
 npm i pg-doc
 ```
+
 or globally:
 
-```
+```sh
 npm i -g pg-doc
 ```
 
-# Usage
+## Usage
 
-```
+```pre
 Usage: pg-doc [options]
 
 Options:
@@ -36,63 +38,74 @@ Options:
   --help                   Show help                                   [boolean]
 ```
 
-# Configuration
+## Configuration
   
 There are 2 alternative ways to pass configuration options appart from the command line.
 
-## Options file
+### Options file
+
 You can put your options in a `.pg-doc.json` file in your project:
 
-```
+```json
 {
-    "connection": <postgres connection url>,
-    "excluded": <string array>,
-    "noDescriptions": <boolean>,
-    "toc": <boolean>,
-    "splitByInitial": <boolean>,
-    "splitLimit": <number>,
-    "title": <string>,
-    "out": <filename>
+    "connection": "<postgres connection url>",
+    "excluded": "<string array>",
+    "noDescriptions": "<boolean>",
+    "toc": "<boolean>",
+    "splitByInitial": "<boolean>",
+    "splitLimit": "<number>",
+    "title": "<string>",
+    "out": "<filename>"
 }
 ```
 
-## Environment variables
+### Environment variables
+
 Use the following variables to pass options to `pg-doc`:
+
+```sh
+PGDOC_CONNECTION="<postgres connection url>"
+PGDOC_OUT="<filename>"
+PGDOC_TITLE="<string>"
+PGDOC_EXCLUDED="<comma separated strings>"
+PGDOC_SPLIT_LIMIT="<number>"
+PGDOC_SPLIT_BY_INITIAL="<boolean>"
+PGDOC_NO_DESCRIPTIONSL="<boolean>"
+PGDOC_TOC="<boolean>"
 ```
-PGDOC_CONNECTION=<postgres connection url> 
-PGDOC_OUT=<filename>
-PGDOC_TITLE=<string>
-PGDOC_EXCLUDED=<comma separated strings>
-PGDOC_SPLIT_LIMIT=<number>
-PGDOC_SPLIT_BY_INITIAL=<boolean>
-PGDOC_NO_DESCRIPTIONSL=<boolean>
-PGDOC_TOC=<boolean>
-```
-## Precedence
+
+### Precedence
+
 Configuration options are applied in the following order (from lowest to highest precedence):
 
 `.pg-doc.json --> env variables --> command line options`
 
-# Table and Column descriptions
+## Table and Column descriptions
+
 By default `pg-doc` will show the description you have defined as table/column comments in your database, ie:
-```
+
+```sql
 sql> COMMENT ON TABLE foo IS 'This is my foo table.';
 ```
+
 will be rendered as
 > ...
-> 
+>
 > |# |Table Name| Description|
 > |--:|----------|------------|
 > |1| foo | This is my foo table. |
-> 
-> ## Details 
+>
+> ## Details
+>
 > ### table1
+>
 > This is my foo table.
-> 
+>
 > ...
 
 If you have no comments defined you can either disable this by setting the `noDescriptions` option to `true` or provide your descriptions by adding a `descriptions` section in your `.pg-doc.json` file like so:
-```
+
+```json
 {
     "descriptions": {
         "tableName": "this is my tableName description",
