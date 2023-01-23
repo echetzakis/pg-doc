@@ -1,13 +1,20 @@
 # Database Documentation
-## Tables 
-[T](#T)
-### T 
+
+## Tables
+
+[T](#t)
+
+### T
+
 |# |Table Name| Description|
 |--:|----------|------------|
 |1| [table1](#table1) | This is the description for table 1 |
 |2| [table2](#table2) | This is the description for table 2 |
-## Details 
+
+## Details
+
 ### table1
+
 This is the description for table 1
 
 |# |column|type|nullable|default|constraints|description|
@@ -16,7 +23,9 @@ This is the description for table 1
 | 2 | name |  character varying | YES |  |  | This is the name column |
 | 3 | rank |  table1_enum1 | NO | 'one' |  | An enumerated rank column |
 | 4 | data |  jsonb | NO | '{"empty": true}' |  | This is a data (json) column |
+
 ### table2
+
 This is the description for table 2
 
 |# |column|type|nullable|default|constraints|description|

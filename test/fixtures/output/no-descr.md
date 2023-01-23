@@ -1,18 +1,25 @@
 # Database Documentation
-## Tables 
+
+## Tables
+
 |# |Table Name|
 |--:|----------|
 |1| [table1](#table1) |
 |2| [table2](#table2) |
-## Details 
+
+## Details
+
 ### table1
+
 |# |column|type|nullable|default|constraints|
 |--:|------|----|--------|-------|-----------|
 | 1 | id |  integer | NO | auto-increment | **PK** |
 | 2 | name |  character varying | YES |  |  |
 | 3 | rank |  table1_enum1 | NO | 'one' |  |
 | 4 | data |  jsonb | NO | '{"empty": true}' |  |
+
 ### table2
+
 |# |column|type|nullable|default|constraints|
 |--:|------|----|--------|-------|-----------|
 | 1 | id |  integer | NO | auto-increment | **PK** |
